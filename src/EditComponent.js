@@ -1,16 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { fetchUpdatePost } from "./reducers/postReducer";
 
 class EditComponent extends Component {
   handleEdit = e => {
     e.preventDefault();
-    const newTitle = this.getTitle.value;
-    const newMessage = this.getMessage.value;
+    const titulo = this.getTitle.value;
+    const contenido = this.getMessage.value;
     const data = {
-      newTitle,
-      newMessage
+      titulo,
+      contenido
     };
-    this.props.dispatch({ type: "UPDATE", id: this.props.post.id, data: data });
+
+    this.props.fetchUpdatePost(this.props.post.id, data);
+    this.props.editPost(false);
   };
   render() {
     return (
@@ -20,7 +23,7 @@ class EditComponent extends Component {
             required
             type="text"
             ref={input => (this.getTitle = input)}
-            defaultValue={this.props.post.title}
+            defaultValue={this.props.post.titulo}
             placeholder="Enter Post Title"
           />
           <br />
@@ -29,7 +32,7 @@ class EditComponent extends Component {
             required
             rows="5"
             ref={input => (this.getMessage = input)}
-            defaultValue={this.props.post.message}
+            defaultValue={this.props.post.contenido}
             cols="28"
             placeholder="Enter Post"
           />
@@ -41,4 +44,14 @@ class EditComponent extends Component {
     );
   }
 }
-export default connect()(EditComponent);
+//export default connect()(EditComponent);
+
+export default connect(
+  state => ({
+    posts: state.root
+  }),
+
+  {
+    fetchUpdatePost
+  }
+)(EditComponent);
