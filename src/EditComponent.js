@@ -13,12 +13,12 @@ class EditComponent extends Component {
     };
 
     this.props.fetchUpdatePost(this.props.post.id, data);
-    this.props.editPost(false);
   };
   render() {
     return (
-      <div key={this.props.post.id} className="post">
+      <div key={this.props.post.id} className="postModal">
         <form className="form" onSubmit={this.handleEdit}>
+          <h2>Editando {this.props.post.titulo}</h2>
           <input
             required
             type="text"
@@ -38,13 +38,12 @@ class EditComponent extends Component {
           />
           <br />
           <br />
-          <button>Update</button>
+          <button>Actualizar</button>
         </form>
       </div>
     );
   }
 }
-//export default connect()(EditComponent);
 
 export default connect(
   state => ({

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PostForm from "./PostForm";
+
 import AllPost from "./AllPost";
 
 class App extends Component {
@@ -9,7 +9,6 @@ class App extends Component {
         <div className="navbar">
           <h2 className="center ">Post It</h2>
         </div>
-        <PostForm />
         <AllPost />
       </div>
     );

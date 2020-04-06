@@ -22,8 +22,8 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-let store = createStore(persistedReducer, applyMiddleware(thunk));
-let persistor = persistStore(store);
+export const store = createStore(persistedReducer, applyMiddleware(thunk));
+const persistor = persistStore(store);
 
 ReactDOM.render(
   <Provider store={store}>

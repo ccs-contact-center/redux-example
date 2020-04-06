@@ -4,6 +4,10 @@ import {
   apiUpdatePost,
   apiDeletePost
 } from "../API/api";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 const initialState = {
   posts: []
@@ -37,6 +41,21 @@ export const fetchAddPost = post => {
     apiAddPost(post)
       .then(res => {
         dispatch(addPost(res));
+        return res;
+      })
+      .then(msg => {
+        MySwal.fire({
+          title: "Correcto",
+          text:
+            '¡Se creo el post "' +
+            msg[0].titulo +
+            '", con ID ' +
+            msg[0].id +
+            "!",
+          icon: "success",
+          confirmButtonColor: "#C00327",
+          allowOutsideClick: false
+        });
       })
       .catch(res => {
         console.log(res);
@@ -49,6 +68,21 @@ export const fetchUpdatePost = (id, post) => {
     apiUpdatePost(id, post)
       .then(res => {
         dispatch(updatePost(res));
+        return res;
+      })
+      .then(msg => {
+        MySwal.fire({
+          title: "Correcto",
+          text:
+            '¡Se actualizo el post "' +
+            msg[0].titulo +
+            '", con ID ' +
+            msg[0].id +
+            "!",
+          icon: "success",
+          confirmButtonColor: "#C00327",
+          allowOutsideClick: false
+        });
       })
       .catch(res => {
         console.log(res);
@@ -61,6 +95,21 @@ export const fetchDeletePost = id => {
     apiDeletePost(id)
       .then(res => {
         dispatch(deletePost(id));
+        return res;
+      })
+      .then(msg => {
+        MySwal.fire({
+          title: "Correcto",
+          text:
+            '¡Se eliminó el post "' +
+            msg[0].titulo +
+            '", con ID ' +
+            msg[0].id +
+            "!",
+          icon: "success",
+          confirmButtonColor: "#C00327",
+          allowOutsideClick: false
+        });
       })
       .catch(res => {
         console.log(res);
@@ -73,7 +122,6 @@ export default (state = initialState, action) => {
     case GET_POSTS:
       return { ...state, posts: action.payload };
     case ADD_POST:
-      console.log(ADD_POST, action, state);
       return {
         ...state,
         posts: [...state.posts, action.payload[0]]

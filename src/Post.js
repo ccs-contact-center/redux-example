@@ -1,13 +1,52 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchDeletePost } from "./reducers/postReducer";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import EditComponent from "./EditComponent";
+import { Provider } from "react-redux";
+import { store } from "./index";
+const MySwal = withReactContent(Swal);
+
 class Post extends Component {
   constructor() {
     super();
     this.handleSetEdit = this.handleSetEdit.bind(this);
   }
-  handleSetEdit(event) {
-    this.props.editPost(true, this.props.post.id);
+  handleSetEdit(event, post) {
+    this.props.editPost(false, this.props.post.id);
+    MySwal.fire({
+      html: (
+        <Provider store={store}>
+          <EditComponent
+            post={this.props.post}
+            key={this.props.post.id}
+            editPost={this.editPost}
+          />
+        </Provider>
+      ),
+      showConfirmButton: false,
+      padding: "0em"
+    }).then(result => {
+      this.props.editPost(false, this.props.post.id);
+    });
+  }
+
+  confirmDelete() {
+    MySwal.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podras deshacer esta acción!",
+      icon: "error",
+      showCancelButton: true,
+      confirmButtonColor: "#C00327",
+      cancelButtonColor: "#B0AFB4",
+      confirmButtonText: "Si",
+      cancelButtonText: "No"
+    }).then(result => {
+      if (result.value) {
+        this.props.fetchDeletePost(this.props.post.id);
+      }
+    });
   }
   render() {
     return (
@@ -16,23 +55,16 @@ class Post extends Component {
         <p className="post_message">{this.props.post.contenido}</p>
         <div className="control-buttons">
           <button className="edit" onClick={() => this.handleSetEdit()}>
-            Edit
+            Editar
           </button>
-          <button
-            className="delete"
-            onClick={() => this.props.fetchDeletePost(this.props.post.id)}
-          >
-            Delete
+          <button className="delete" onClick={() => this.confirmDelete()}>
+            Borrar
           </button>
         </div>
       </div>
     );
   }
 }
-
-//export default connect(state => ({
-//  posts: state.root
-//}))(Post);
 
 export default connect(
   state => ({

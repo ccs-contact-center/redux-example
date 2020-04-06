@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchAddPost } from "./reducers/postReducer";
+
+
+
 class PostForm extends Component {
   constructor(props) {
     super(props);
