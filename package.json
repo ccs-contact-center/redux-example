@@ -14,11 +14,10 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "sweetalert2": "^9.10.9",
-    "sweetalert2-react-content": "^3.0.1",
-    "terser": "^3.14.1"
+    "sweetalert2-react-content": "^3.0.1"
   },
   "resolutions": {
-    "terser": "3.14.1"
+    "terser": "4.6.10"
   },
   "scripts": {
     "start": "react-scripts start",
