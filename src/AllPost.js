@@ -9,11 +9,14 @@ import { store } from "./index";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
+import socketIOClient from "socket.io-client";
+
+import { store as notiStore } from "react-notifications-component";
 const MySwal = withReactContent(Swal);
 
 class AllPost extends Component {
   state = {
-    editing: false
+    editing: false,
   };
 
   constructor() {
@@ -22,12 +25,30 @@ class AllPost extends Component {
   }
   componentDidMount() {
     this.props.fetchGetPosts();
+
+    const socket = socketIOClient("http://localhost:8082");
+    socket.on("server/random", (data) => {
+      console.log(data);
+      notiStore.addNotification({
+        title: "Nuevo Mensaje",
+        message: data,
+        type: "info",
+        insert: "bottom",
+        container: "bottom-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: true,
+        },
+      });
+    });
   }
 
   editPost(editing, index) {
     this.setState({
       editing: editing,
-      index: index
+      index: index,
     });
   }
 
@@ -39,7 +60,7 @@ class AllPost extends Component {
         </Provider>
       ),
       showConfirmButton: false,
-      padding: "0em"
+      padding: "0em",
     });
   }
 
@@ -48,7 +69,7 @@ class AllPost extends Component {
       <div style={{ textAlign: "center" }}>
         <h1 className="post_heading">Todos los Posts</h1>
 
-        {this.props.posts.posts.map(post => (
+        {this.props.posts.posts.map((post) => (
           <div key={post.id}>
             {this.state.editing && post.id === this.state.index ? null : (
               <Post post={post} key={post.id} editPost={this.editPost} />
@@ -64,11 +85,11 @@ class AllPost extends Component {
 }
 
 export default connect(
-  state => ({
-    posts: state.root
+  (state) => ({
+    posts: state.root,
   }),
 
   {
-    fetchGetPosts
+    fetchGetPosts,
   }
 )(AllPost);

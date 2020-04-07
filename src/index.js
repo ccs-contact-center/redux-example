@@ -11,13 +11,16 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import postReducer from "./reducers/postReducer";
 
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+
 const persistConfig = {
   key: "root",
-  storage
+  storage,
 };
 
 const rootReducer = combineReducers({
-  root: postReducer
+  root: postReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -28,6 +31,7 @@ const persistor = persistStore(store);
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
+      <ReactNotification />
       <App />
     </PersistGate>
   </Provider>,
