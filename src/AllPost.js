@@ -27,7 +27,9 @@ class AllPost extends Component {
     this.props.fetchGetPosts();
 
     //const socket = socketIOClient("http://localhost:8082");
-    const socket = socketIOClient("https://socket.ccscontactcenter.com");
+    const socket = socketIOClient("https://socket.ccscontactcenter.com", {
+      transports: ["websocket"],
+    });
     socket.on("server/random", (data) => {
       console.log(data);
       notiStore.addNotification({
