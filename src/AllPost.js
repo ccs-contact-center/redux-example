@@ -26,7 +26,8 @@ class AllPost extends Component {
   componentDidMount() {
     this.props.fetchGetPosts();
 
-    const socket = socketIOClient("https://api.ccscontactcenter.com");
+    //const socket = socketIOClient("http://localhost:8082");
+    const socket = socketIOClient("https://socket.ccscontactcenter.com");
     socket.on("server/random", (data) => {
       console.log(data);
       notiStore.addNotification({
