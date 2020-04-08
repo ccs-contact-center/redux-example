@@ -28,7 +28,7 @@ class AllPost extends Component {
 
     //const socket = socketIOClient("http://localhost:8082");
     const socket = socketIOClient("https://socket.ccscontactcenter.com", {
-      transports: ["websocket"],
+      transports: ["websocket", "polling"],
     });
     socket.on("server/random", (data) => {
       console.log(data);
