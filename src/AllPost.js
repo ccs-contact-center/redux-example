@@ -28,8 +28,7 @@ class AllPost extends Component {
 
     //const socket = socketIOClient("http://localhost:8082");
     const socket = socketIOClient("https://socket.ccscontactcenter.com");
-    socket.on("server/random", (data) => {
-      console.log(data);
+    socket.on("msgNotification", (data) => {
       notiStore.addNotification({
         title: "Nuevo Mensaje",
         message: data,
