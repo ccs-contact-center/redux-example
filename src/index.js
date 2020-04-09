@@ -12,7 +12,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import postReducer from "./reducers/postReducer";
 
 import ReactNotification from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
+import "./theme.css";
 
 const persistConfig = {
   key: "root",
