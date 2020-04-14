@@ -13,6 +13,8 @@ import socketIOClient from "socket.io-client";
 
 import { store as notiStore } from "react-notifications-component";
 const MySwal = withReactContent(Swal);
+//const socket = socketIOClient("http://localhost:8082");
+const socket = socketIOClient("https://socket.ccscontactcenter.com");
 
 class AllPost extends Component {
   state = {
@@ -21,13 +23,13 @@ class AllPost extends Component {
 
   constructor() {
     super();
+    this.handleChange = this.handleChange.bind(this);
+    this.setUsername = this.setUsername.bind(this);
     this.editPost = this.editPost.bind(this);
   }
   componentDidMount() {
     this.props.fetchGetPosts();
 
-    //const socket = socketIOClient("http://localhost:8082");
-    const socket = socketIOClient("https://socket.ccscontactcenter.com");
     socket.on("msgNotification", (data) => {
       notiStore.addNotification({
         title: "Nuevo Mensaje",
@@ -64,6 +66,19 @@ class AllPost extends Component {
     });
   }
 
+  handleChange(e) {
+    this.setState({
+      [e.target.id]: e.target.value,
+    });
+  }
+
+  setUsername() {
+    socket.emit("recieveUserName", {
+      //normally this would be dynamically added based on user input, but for examples sake
+      name: this.state.nombre,
+    });
+  }
+
   render() {
     return (
       <div style={{ textAlign: "center" }}>
@@ -77,6 +92,12 @@ class AllPost extends Component {
           </div>
         ))}
         <button onClick={() => this.handleNewPost()}>Nuevo Post</button>
+        <br />
+        <br />
+        <input type="text" onChange={this.handleChange} id="nombre"></input>
+        <br />
+        <br />
+        <button onClick={this.setUsername}>Login</button>
         <br />
         <br />
       </div>
