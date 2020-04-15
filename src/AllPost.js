@@ -33,8 +33,8 @@ class AllPost extends Component {
     socket.on("msgNotification", (data) => {
       notiStore.addNotification({
         title: "Nuevo Mensaje",
-        message: data,
-        type: "info",
+        message: data.body,
+        type: data.type,
         insert: "bottom",
         container: "bottom-right",
         animationIn: ["animated", "fadeIn"],
@@ -73,9 +73,8 @@ class AllPost extends Component {
   }
 
   setUsername() {
-    socket.emit("recieveUserName", {
-      //normally this would be dynamically added based on user input, but for examples sake
-      name: this.state.nombre,
+    socket.emit("loginUser", {
+      username: this.state.nombre,
     });
   }
 
