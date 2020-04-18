@@ -14,7 +14,7 @@ import socketIOClient from "socket.io-client";
 import { store as notiStore } from "react-notifications-component";
 const MySwal = withReactContent(Swal);
 //const socket = socketIOClient("http://localhost:8082");
-const socket = socketIOClient("wss://socket.ccscontactcenter.com", {
+const socket = socketIOClient("https://api.ccscontactcenter.com", {
   transports: ["websocket"],
 });
 
